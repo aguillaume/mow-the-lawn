@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace MowTheLawn
 {
-    public class LawnMowerManager
+    public class LawnMowerManagerParallel
     {
         public string RunMowers(Queue<string> instructions)
         {
@@ -16,24 +18,24 @@ namespace MowTheLawn
 
             for (int i = 0; i < maxInstructions; i++)
             {
-                var moves = new Dictionary<Mower, Move>();
+                var moves = new ConcurrentDictionary<Mower, Move>();
 
-                foreach (var mower in mowers)
+                Parallel.ForEach(mowers, mower =>
                 {
                     var move = mower.NextMove();
                     if ((move == null) || // Mower instructions finished.
                         (move.Coordinate != null && !lawn.IsInBounds(move.Coordinate))) // mower advanced out of bounds
-                        continue;
-                    moves.Add(mower, move);
-                }
+                        return;
+                    moves.TryAdd(mower, move); // May try and use local thread var instead of going back to the main thread
+                });
 
                 List<Mower> mowersInCollision = CheckForCollisions(mowers, moves);
 
-                foreach (var move in moves)
+                Parallel.ForEach(moves, move =>
                 {
-                    if (mowersInCollision.Contains(move.Key)) continue;
+                    if (mowersInCollision.Contains(move.Key)) return;
                     move.Key.Move(move.Value);
-                }
+                });// May try and use local thread var instead of going back to the main thread
 
                 //UpdateMowersLocationOnLawn(lawn, moves);
             }
@@ -42,17 +44,17 @@ namespace MowTheLawn
             return outputParser.ParseOutput(mowers);
         }
 
-        private List<Mower> CheckForCollisions(List<Mower> mowers, Dictionary<Mower, Move> moves)
+        private List<Mower> CheckForCollisions(List<Mower> mowers, ConcurrentDictionary<Mower, Move> moves)
         {
             // Mowers going to same location
-            var sameLocationCollision = moves
+            var sameLocationCollision = moves.AsParallel()
                 .Where(m => m.Value.Coordinate != null)
                 .GroupBy(m => m.Value.Coordinate, m => m.Key)
                 .Where(g => g.Count() > 1)
                 .SelectMany(c => c.Select(m => m));
 
             // Mowers moving into statinary mower or Mowers Swapping
-            var intoStationaryCollision = moves
+            var intoStationaryCollision = moves.AsParallel()
                 .Where(m =>
                 {
                     if (m.Value.Coordinate != null && mowers.Select(x => x.Position).Contains(m.Value.Coordinate))
@@ -74,22 +76,5 @@ namespace MowTheLawn
             var mowersInCollision = sameLocationCollision.Union(intoStationaryCollision).ToList();
             return mowersInCollision;
         }
-
-        //private void UpdateMowersLocationOnLawn(Lawn lawn, Dictionary<Mower, Coordinate> moves)
-        //{
-        //    foreach (var move in moves)
-        //    {
-        //        lawn.Grid.Find(g => move.Key.Equals(g.Mower)).Mower = null;
-        //        lawn.Grid.Find(g => move.Value.Equals(g.Coordinate)).Mower = move.Key;
-        //    }
-        //}
-
-        //private void AddMowersToLawn(Lawn lawn, List<Mower> mowers)
-        //{
-        //    foreach (var mower in mowers)
-        //    {
-        //        lawn.Grid.Find(g => mower.Position.Equals(g.Coordinate)).Mower = mower;
-        //    }
-        //}
     }
 }

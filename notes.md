@@ -24,3 +24,7 @@
 
 # Parallel 
 - Input parses. Could read / generate mawers in parallel
+- mower manager.
+  - get next move for all mowers
+  - Collision evaluation
+  - execute mower move
