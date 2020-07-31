@@ -13,6 +13,8 @@ namespace MowTheLawn
             var inputParser = new InputParser();
             inputParser.ParseInput(instructions, out Lawn lawn, out List<Mower> mowers);
 
+            // Check for mowers with the same position
+
             var maxInstructions = mowers.Select(m => m.MowerCommands.Length).Max();
 
             for (int i = 0; i < maxInstructions; i++)
