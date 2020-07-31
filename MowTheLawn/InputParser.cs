@@ -42,7 +42,7 @@ namespace MowTheLawn
                 var mowerOrientation = Enum.Parse<Orientation>(mowerPositionMatch.Groups[3].Value);
                 var mowerCommands = mowerMovementMatch.Value;
 
-                mowers.Add(new Mower(mowerOrder, mowerX, mowerY, mowerOrientation, mowerCommands, lawn));
+                mowers.Add(new Mower(mowerOrder, mowerX, mowerY, mowerOrientation, mowerCommands));
             }
         }
     }

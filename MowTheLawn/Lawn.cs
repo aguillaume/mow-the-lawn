@@ -7,6 +7,7 @@ namespace MowTheLawn
     public class Lawn
     {
         private Coordinate topRightCorner;
+        public List<GridPoint> Grid = new List<GridPoint>();
 
         public Lawn(Coordinate topRightCorner)
         {
@@ -23,8 +24,6 @@ namespace MowTheLawn
                 }
             }
         }
-
-        public List<GridPoint> Grid = new List<GridPoint>();
 
         public bool IsInBounds(Coordinate coordinate)
         {

@@ -21,3 +21,6 @@
  - within surfcae
  - collision detection
 - Mower
+
+# Parallel 
+- Input parses. Could read / generate mawers in parallel

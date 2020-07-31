@@ -6,28 +6,19 @@ namespace MowTheLawn
 {
     public class Mower : IEquatable<Mower>
     {
-        private Lawn lawn;
-        private Coordinate _nextMove;
+        public Queue<Command> CommandQueue = new Queue<Command>();
 
         public string MowerCommands { get; set; }
         public Coordinate Position { get; set; }
         public Orientation Orientation { get; set; }
-        public int Id { get; internal set; }
-        public Queue<Command> CommandQueue = new Queue<Command>();
-        //public Coordinate NextMove {
-        //    get {
-        //        if (_nextMove == null) _nextMove = Move();
-        //        return _nextMove;
-        //    }
-        //}
+        public int Id { get; }
 
-        public Mower(int id, int x, int y, Orientation mowerOrientation, string mowerCommands, Lawn lawn)
+        public Mower(int id, int x, int y, Orientation mowerOrientation, string mowerCommands)
         {
             Id = id;
             Position = new Coordinate(x, y);
             Orientation = mowerOrientation;
             MowerCommands = mowerCommands;
-            this.lawn = lawn;
 
             foreach (var c in MowerCommands)
             {
@@ -73,61 +64,13 @@ namespace MowTheLawn
             }
         }
 
-        //public Coordinate TryNextMove()
-        //{
-        //    if (NextMove != null) Position = NextMove;
-        //    _nextMove = null;
-        //    return NextMove;
-        //}
-
         public void Move(Move move)
         {
             if (move.Coordinate != null) Position = move.Coordinate;
             if (move.Orientation.HasValue) Orientation = move.Orientation.Value;
         }
 
-        //private Coordinate MoveForward()
-        //{
-        //    Coordinate newPosition = null;
-        //    switch(Orientation)
-        //    {
-        //        case Orientation.N:
-        //            newPosition = new Coordinate(Position.X.Value, Position.Y.Value + 1);
-        //            break;
-        //        case Orientation.E:
-        //            newPosition = new Coordinate(Position.X.Value + 1, Position.Y.Value);
-        //            break;
-        //        case Orientation.S:
-        //            newPosition = new Coordinate(Position.X.Value, Position.Y.Value - 1);
-        //            break;
-        //        case Orientation.W:
-        //            newPosition = new Coordinate(Position.X.Value - 1, Position.Y.Value);
-        //            break;
-        //        default:
-        //            throw new Exception();
-        //    }
-
-        //    if (lawn.IsInBounds(newPosition) && !MowerCollision(newPosition))
-        //    {
-        //        return newPosition;
-        //    }
-        //    return null;
-        //}
-
-        //private bool MowerCollision(Coordinate coordinate)
-        //{
-        //    var mowers = lawn.GetMowersNear(coordinate);
-        //    mowers.Remove(this);
-
-        //    if (mowers.Count == 0) return false;
-        //    var centerMower = mowers.Find(m => m.Position.Equals(coordinate));
-        //    if (centerMower.NextMove == null) return true; //Mower Stationary we would hit it
-        //    if (centerMower.NextMove == Position) return true; // Mowers swap places would hit eachother
-        //    if (mowers.Any(m => m.NextMove == coordinate)) return true; //An other Mower would move to the same location.
-
-        //    return false;
-        //}
-
+        #region IEquatable
         public override bool Equals(object obj)
         {
             return Equals(obj as Mower);
@@ -153,5 +96,6 @@ namespace MowTheLawn
         {
             return !(mower1 == mower2);
         }
+        #endregion IEquatable
     }
 }

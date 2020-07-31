@@ -13,12 +13,7 @@ namespace MowTheLawn
             X = x;
             Y = y;
         }
-
-        private bool IsPositiveOrZero(int value)
-        {
-            return value >= 0;
-        }
-
+        
         public override string ToString()
         {
             return $"{X} {Y}";

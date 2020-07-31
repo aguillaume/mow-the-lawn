@@ -131,18 +131,10 @@ namespace MowTheLawnTests
                 instructions.Enqueue(command);
             }
 
-            //var expectedOutput = new StringBuilder();
-            //expectedOutput.AppendLine("0 0 E");
-            //expectedOutput.AppendLine("1 0 W");
-            //expectedOutput.AppendLine("0 2 W");
-            //expectedOutput.AppendLine("0 1 N");
-            //expectedOutput.AppendLine("1 2 E");
-            //expectedOutput.AppendLine("2 1 N");
             Console.WriteLine(instructionStr);
             var manager = new LawnMowerManager();
             var output = manager.RunMowers(instructions);
             Console.WriteLine(output);
-            //Assert.AreEqual(expectedOutput.ToString(), output);
         }
     }
 }
