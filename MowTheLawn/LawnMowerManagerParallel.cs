@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MowTheLawn.FileRepo;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,10 +9,17 @@ namespace MowTheLawn
 {
     public class LawnMowerManagerParallel
     {
-        public string RunMowers(Queue<string> instructions)
+        private readonly IFileRepository _fileRepo;
+        public LawnMowerManagerParallel(IFileRepository fileRepository)
         {
-            var inputParser = new InputParser();
-            inputParser.ParseInput(instructions, out Lawn lawn, out List<Mower> mowers);
+            _fileRepo = fileRepository;
+        }
+
+        public string RunMowers(string instructionFilePath)
+        {
+            _fileRepo.ParseInstructions(instructionFilePath, out Lawn lawn, out List<Mower> mowers);
+            //var inputParser = new InputParser();
+            //inputParser.ParseInput(instructions, out Lawn lawn, out List<Mower> mowers);
 
             // Check for mowers with the same position
 
@@ -39,8 +47,10 @@ namespace MowTheLawn
                 });
             }
 
-            var outputParser = new OutputParser();
-            return outputParser.ParseOutput(mowers);
+            _fileRepo.ParseOutput(instructionFilePath, mowers);
+
+            //var outputParser = new OutputParser();
+            //return outputParser.ParseOutput(mowers);
         }
 
         private List<Mower> CheckForCollisions(List<Mower> mowers, ConcurrentDictionary<Mower, Move> moves)
