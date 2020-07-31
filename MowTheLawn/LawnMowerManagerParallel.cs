@@ -12,7 +12,6 @@ namespace MowTheLawn
         {
             var inputParser = new InputParser();
             inputParser.ParseInput(instructions, out Lawn lawn, out List<Mower> mowers);
-            //AddMowersToLawn(lawn, mowers);
 
             var maxInstructions = mowers.Select(m => m.MowerCommands.Length).Max();
 
@@ -26,7 +25,7 @@ namespace MowTheLawn
                     if ((move == null) || // Mower instructions finished.
                         (move.Coordinate != null && !lawn.IsInBounds(move.Coordinate))) // mower advanced out of bounds
                         return;
-                    moves.TryAdd(mower, move); // May try and use local thread var instead of going back to the main thread
+                    moves.TryAdd(mower, move);
                 });
 
                 List<Mower> mowersInCollision = CheckForCollisions(mowers, moves);
@@ -35,9 +34,7 @@ namespace MowTheLawn
                 {
                     if (mowersInCollision.Contains(move.Key)) return;
                     move.Key.Move(move.Value);
-                });// May try and use local thread var instead of going back to the main thread
-
-                //UpdateMowersLocationOnLawn(lawn, moves);
+                });
             }
 
             var outputParser = new OutputParser();

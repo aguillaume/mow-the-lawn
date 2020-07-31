@@ -10,7 +10,6 @@ namespace MowTheLawn
         {
             var inputParser = new InputParser();
             inputParser.ParseInput(instructions, out Lawn lawn, out List<Mower> mowers);
-            //AddMowersToLawn(lawn, mowers);
 
             var maxInstructions = mowers.Select(m => m.MowerCommands.Length).Max();
 
@@ -34,8 +33,6 @@ namespace MowTheLawn
                     if (mowersInCollision.Contains(move.Key)) continue;
                     move.Key.Move(move.Value);
                 }
-
-                //UpdateMowersLocationOnLawn(lawn, moves);
             }
 
             var outputParser = new OutputParser();
@@ -74,22 +71,5 @@ namespace MowTheLawn
             var mowersInCollision = sameLocationCollision.Union(intoStationaryCollision).ToList();
             return mowersInCollision;
         }
-
-        //private void UpdateMowersLocationOnLawn(Lawn lawn, Dictionary<Mower, Coordinate> moves)
-        //{
-        //    foreach (var move in moves)
-        //    {
-        //        lawn.Grid.Find(g => move.Key.Equals(g.Mower)).Mower = null;
-        //        lawn.Grid.Find(g => move.Value.Equals(g.Coordinate)).Mower = move.Key;
-        //    }
-        //}
-
-        //private void AddMowersToLawn(Lawn lawn, List<Mower> mowers)
-        //{
-        //    foreach (var mower in mowers)
-        //    {
-        //        lawn.Grid.Find(g => mower.Position.Equals(g.Coordinate)).Mower = mower;
-        //    }
-        //}
     }
 }
