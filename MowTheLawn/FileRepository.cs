@@ -11,6 +11,7 @@ namespace MowTheLawn.FileRepo
     {
         public Queue<string> GetInstructions(string filePath)
         {
+            if (!File.Exists(filePath)) throw new FileNotFoundException($"No file exists at the provided path: {filePath}");
             var result = new Queue<string>();
             using(var file = new StreamReader(filePath))
             {
