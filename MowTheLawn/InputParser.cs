@@ -1,6 +1,7 @@
 ﻿using MowTheLawn.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -33,16 +34,16 @@ namespace MowTheLawn
                 currentItem = instructions.Dequeue();
                 var mowerPositionMatch = mowerPositionValidator.Match(currentItem);
                 if (!mowerPositionMatch.Success) throw new Exception($"{currentItem} is not a valid mower start position. It must be in this format: 'X Y O'");
+                var mowerX = int.Parse(mowerPositionMatch.Groups[1].Value);
+                var mowerY = int.Parse(mowerPositionMatch.Groups[2].Value);
+                var mowerOrientation = Enum.Parse<Orientation>(mowerPositionMatch.Groups[3].Value);
+                if (mowers.Select(m => m.Position).Any(P => P.Equals(new Coordinate(x, y)))) throw new Exception($"{currentItem} is not a valid starting position. There is already an other Mower at this position.");
 
                 currentItem = instructions.Dequeue();
                 var mowerMovementMatch = mowerMovementValidator.Match(currentItem);
                 if (!mowerMovementMatch.Success) throw new Exception($"{currentItem} is not a valid list of mower commands. It must only contain L, R or F commands.");
 
-                var mowerX = int.Parse(mowerPositionMatch.Groups[1].Value);
-                var mowerY = int.Parse(mowerPositionMatch.Groups[2].Value);
-                var mowerOrientation = Enum.Parse<Orientation>(mowerPositionMatch.Groups[3].Value);
                 var mowerCommands = mowerMovementMatch.Value;
-
                 mowers.Add(new Mower(mowerOrder, mowerX, mowerY, mowerOrientation, mowerCommands));
             }
         }
