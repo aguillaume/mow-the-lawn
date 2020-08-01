@@ -1,4 +1,6 @@
-﻿using MowTheLawn.FileRepo;
+﻿using Microsoft.Extensions.DependencyInjection;
+using MowTheLawn.Interfaces;
+using MowTheLawn.InversionOfControl;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -9,17 +11,21 @@ namespace MowTheLawn
 {
     public class LawnMowerManagerParallel
     {
-        private readonly IFileRepository _fileRepo;
-        public LawnMowerManagerParallel(IFileRepository fileRepository)
+        private readonly IFileRepository _fileRepo = InversionOfControlService.I.IoC.GetRequiredService<IFileRepository>();
+        private readonly IInputParser _inputParser = InversionOfControlService.I.IoC.GetRequiredService<IInputParser>();
+        private readonly IOutputBuilder _outputBuilder = InversionOfControlService.I.IoC.GetRequiredService<IOutputBuilder>();
+
+        private readonly string _finstructionsFlePath;
+
+        public LawnMowerManagerParallel(string instructionFilePath)
         {
-            _fileRepo = fileRepository;
+            _finstructionsFlePath = instructionFilePath;
         }
 
-        public string RunMowers(string instructionFilePath)
+        public string RunMowers()
         {
-            _fileRepo.ParseInstructions(instructionFilePath, out Lawn lawn, out List<Mower> mowers);
-            //var inputParser = new InputParser();
-            //inputParser.ParseInput(instructions, out Lawn lawn, out List<Mower> mowers);
+            var instructions = _fileRepo.GetInstructions(_finstructionsFlePath);
+            _inputParser.ParseInput(instructions, out Lawn lawn, out List<Mower> mowers);
 
             // Check for mowers with the same position
 
@@ -47,10 +53,7 @@ namespace MowTheLawn
                 });
             }
 
-            _fileRepo.ParseOutput(instructionFilePath, mowers);
-
-            //var outputParser = new OutputParser();
-            //return outputParser.ParseOutput(mowers);
+            return _outputBuilder.Getoutput(mowers);
         }
 
         private List<Mower> CheckForCollisions(List<Mower> mowers, ConcurrentDictionary<Mower, Move> moves)

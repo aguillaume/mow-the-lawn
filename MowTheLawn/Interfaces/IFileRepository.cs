@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace MowTheLawn.FileRepo
+namespace MowTheLawn.Interfaces
 {
     public interface IFileRepository
     {
-        void ParseInstructions(string filePath, out Lawn lawn, out List<Mower> movers);
+        Queue<string> GetInstructions(string filePath);
 
         void ParseOutput(string filePath, List<Mower> movers);
     }

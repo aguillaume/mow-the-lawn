@@ -1,13 +1,14 @@
-﻿using System;
+﻿using MowTheLawn.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 
 namespace MowTheLawn
 {
-    public class InputParser
+    public class InputParser : IInputParser
     {
-        private Regex topRightValidator = new Regex(@"^(\d+) (\d+)$", RegexOptions.Compiled); 
+        private Regex topRightValidator = new Regex(@"^(\d+) (\d+)$", RegexOptions.Compiled);
         private Regex mowerPositionValidator = new Regex(@"^(\d+) (\d+) ([NESW])$", RegexOptions.Compiled);
         private Regex mowerMovementValidator = new Regex(@"^[LRF]*$", RegexOptions.Compiled);
 

@@ -23,8 +23,8 @@ namespace MowTheLawnTests
             expectedOutput.AppendLine("1 3 N");
             expectedOutput.AppendLine("5 1 E");
 
-            var manager = new LawnMowerManagerParallel();
-            var output = manager.RunMowers(instructions);
+            var manager = new LawnMowerManagerParallel("");
+            var output = manager.RunMowers();
 
             Assert.AreEqual(expectedOutput.ToString(), output);
         }
@@ -43,8 +43,8 @@ namespace MowTheLawnTests
             expectedOutput.AppendLine("0 0 E");
             expectedOutput.AppendLine("1 0 W");
 
-            var manager = new LawnMowerManagerParallel();
-            var output = manager.RunMowers(instructions);
+            var manager = new LawnMowerManagerParallel("");
+            var output = manager.RunMowers();
 
             Assert.AreEqual(expectedOutput.ToString(), output);
         }
@@ -63,8 +63,8 @@ namespace MowTheLawnTests
             expectedOutput.AppendLine("1 0 E");
             expectedOutput.AppendLine("1 1 N");
 
-            var manager = new LawnMowerManagerParallel();
-            var output = manager.RunMowers(instructions);
+            var manager = new LawnMowerManagerParallel("");
+            var output = manager.RunMowers();
 
             Assert.AreEqual(expectedOutput.ToString(), output);
         }
@@ -95,8 +95,8 @@ namespace MowTheLawnTests
             expectedOutput.AppendLine("1 2 E");
             expectedOutput.AppendLine("2 1 N");
 
-            var manager = new LawnMowerManagerParallel();
-            var output = manager.RunMowers(instructions);
+            var manager = new LawnMowerManagerParallel("");
+            var output = manager.RunMowers();
 
             Assert.AreEqual(expectedOutput.ToString(), output);
         }
@@ -134,8 +134,8 @@ namespace MowTheLawnTests
             }
 
             Console.WriteLine(instructionStr);
-            var manager = new LawnMowerManagerParallel();
-            var output = manager.RunMowers(instructions);
+            var manager = new LawnMowerManagerParallel("");
+            var output = manager.RunMowers();
             Console.WriteLine(output);
         }
     }

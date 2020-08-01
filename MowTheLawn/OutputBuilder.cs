@@ -1,17 +1,14 @@
-﻿using System;
+﻿using MowTheLawn.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 namespace MowTheLawn
 {
-    public class OutputParser
+    public class OutputBuilder : IOutputBuilder
     {
-        public OutputParser()
-        {
-        }
-
-        public string ParseOutput(List<Mower> mowers)
+        public string Getoutput(List<Mower> mowers)
         {
             var result = new StringBuilder();
             mowers.OrderBy(m => m.Id);
