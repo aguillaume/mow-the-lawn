@@ -8,7 +8,7 @@ namespace MowTheLawn
 {
     public class OutputBuilder : IOutputBuilder
     {
-        public string Getoutput(List<Mower> mowers)
+        public string GetOutput(List<Mower> mowers)
         {
             var result = new StringBuilder();
             mowers.OrderBy(m => m.Id);

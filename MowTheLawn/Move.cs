@@ -1,4 +1,6 @@
-﻿namespace MowTheLawn
+﻿using MowTheLawn.Enums;
+
+namespace MowTheLawn
 {
     public class Move
     {

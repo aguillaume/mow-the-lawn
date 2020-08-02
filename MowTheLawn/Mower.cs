@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MowTheLawn.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -6,7 +7,7 @@ namespace MowTheLawn
 {
     public class Mower : IEquatable<Mower>
     {
-        public Queue<Command> CommandQueue = new Queue<Command>();
+        private readonly Queue<Command> _commandQueue = new Queue<Command>();
 
         public string MowerCommands { get; set; }
         public Coordinate Position { get; set; }
@@ -22,14 +23,14 @@ namespace MowTheLawn
 
             foreach (var c in MowerCommands)
             {
-                CommandQueue.Enqueue(Enum.Parse<Command>(c.ToString()));
+                _commandQueue.Enqueue(Enum.Parse<Command>(c.ToString()));
             }
         }
 
-        internal Move NextMove()
+        public Move NextMove()
         {
-            if (CommandQueue.Count == 0) return null;
-            var command = CommandQueue.Dequeue();
+            if (_commandQueue.Count == 0) return null;
+            var command = _commandQueue.Dequeue();
 
             var move = new Move();
             switch (command)

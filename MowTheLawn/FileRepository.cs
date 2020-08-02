@@ -23,10 +23,5 @@ namespace MowTheLawn.FileRepo
             }
             return result;
         }
-
-        public void ParseOutput(string filePath, List<Mower> movers)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

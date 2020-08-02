@@ -6,14 +6,13 @@ namespace MowTheLawn.InversionOfControl
 {
     public sealed class InversionOfControlService
     {
-        private static InversionOfControlService instance = null;
-        private static readonly object padlock = new object();
+        private static InversionOfControlService _instance = null;
+        private static readonly object _padlock = new object();
 
         public ServiceProvider IoC;
 
         private InversionOfControlService()
         {
-            //setup our DI
             IoC = new ServiceCollection()
                 .AddSingleton<IFileRepository, FileRepository>()
                 .AddSingleton<IInputParser, InputParser>()
@@ -25,14 +24,12 @@ namespace MowTheLawn.InversionOfControl
         {
             get
             {
-                lock(padlock)
+                lock(_padlock)
                 {
-                    if (instance == null) instance = new InversionOfControlService();
-                    return instance;
+                    if (_instance == null) _instance = new InversionOfControlService();
+                    return _instance;
                 }
             }
         }
-
-
     }
 }

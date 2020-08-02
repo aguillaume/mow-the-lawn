@@ -1,4 +1,4 @@
-﻿namespace MowTheLawn
+﻿namespace MowTheLawn.Enums
 {
     public enum Command
     {

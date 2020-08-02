@@ -26,7 +26,7 @@ namespace MowTheLawn
 
         public bool Equals(Coordinate other)
         {
-            if (ReferenceEquals(other, null) || GetType() != other.GetType()) return false;
+            if (other is null || GetType() != other.GetType()) return false;
             return X == other.X && Y == other.Y;
         }
 

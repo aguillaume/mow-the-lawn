@@ -51,7 +51,7 @@ namespace MowTheLawn
                 });
             }
 
-            return _outputBuilder.Getoutput(mowers);
+            return _outputBuilder.GetOutput(mowers);
         }
 
         private List<Mower> CheckForCollisions(List<Mower> mowers, ConcurrentDictionary<Mower, Move> moves)

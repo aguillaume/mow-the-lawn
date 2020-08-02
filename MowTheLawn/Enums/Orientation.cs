@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace MowTheLawn
+namespace MowTheLawn.Enums
 {
     public enum Orientation
     {

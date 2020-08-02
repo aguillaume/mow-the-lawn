@@ -1,4 +1,5 @@
 ﻿using MowTheLawn;
+using MowTheLawn.Enums;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;

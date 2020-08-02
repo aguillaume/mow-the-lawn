@@ -6,6 +6,6 @@ namespace MowTheLawn.Interfaces
 {
     public interface IOutputBuilder
     {
-        string Getoutput(List<Mower> mowers);
+        string GetOutput(List<Mower> mowers);
     }
 }

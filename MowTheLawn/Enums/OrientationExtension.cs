@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace MowTheLawn
+namespace MowTheLawn.Enums
 {
     public static class OrientationExtension
     {
         public static Orientation Right(this Orientation orientation)
         {
-            switch(orientation)
+            switch (orientation)
             {
                 case Orientation.N:
                     return Orientation.E;
