@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using MowTheLawn.FileRepo;
 using MowTheLawn.Interfaces;
+using System;
 
 namespace MowTheLawn.InversionOfControl
 {
@@ -9,7 +10,7 @@ namespace MowTheLawn.InversionOfControl
         private static InversionOfControlService _instance = null;
         private static readonly object _padlock = new object();
 
-        public ServiceProvider IoC;
+        public IServiceProvider IoC;
 
         private InversionOfControlService()
         {
@@ -17,6 +18,7 @@ namespace MowTheLawn.InversionOfControl
                 .AddSingleton<IFileRepository, FileRepository>()
                 .AddSingleton<IInputParser, InputParser>()
                 .AddSingleton<IOutputBuilder, OutputBuilder>()
+                .AddSingleton<LawnMowerManagerParallel>()
                 .BuildServiceProvider();
         }
 

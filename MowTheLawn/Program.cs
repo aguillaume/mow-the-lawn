@@ -1,13 +1,19 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using MowTheLawn.FileRepo;
+using MowTheLawn.Interfaces;
 using MowTheLawn.InversionOfControl;
 using System;
 using System.Collections.Generic;
 
 namespace MowTheLawn
 {
+
     class Program
     {
+        private readonly static LawnMowerManagerParallel _managerParallel = InversionOfControlService.I.IoC.GetRequiredService<LawnMowerManagerParallel>();
+        private readonly static IFileRepository _fileRepo = InversionOfControlService.I.IoC.GetRequiredService<IFileRepository>();
+        private readonly static IOutputBuilder _outputBuilder = InversionOfControlService.I.IoC.GetRequiredService<IOutputBuilder>();
+
         static void Main(string[] args)
         {
             string filePath;
@@ -31,8 +37,9 @@ namespace MowTheLawn
             }
             try
             {
-                var manager = new LawnMowerManagerParallel(filePath);
-                Console.WriteLine(manager.RunMowers());
+                var instructions = _fileRepo.GetInstructions(filePath);
+                var mowers = _managerParallel.RunMowers(instructions);
+                Console.WriteLine(_outputBuilder.GetOutput(mowers));
 
             }
             catch (Exception ex)

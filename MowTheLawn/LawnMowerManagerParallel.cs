@@ -11,20 +11,15 @@ namespace MowTheLawn
 {
     public class LawnMowerManagerParallel
     {
-        private readonly IFileRepository _fileRepo = InversionOfControlService.I.IoC.GetRequiredService<IFileRepository>();
-        private readonly IInputParser _inputParser = InversionOfControlService.I.IoC.GetRequiredService<IInputParser>();
-        private readonly IOutputBuilder _outputBuilder = InversionOfControlService.I.IoC.GetRequiredService<IOutputBuilder>();
+        private readonly IInputParser _inputParser;
 
-        private readonly string _finstructionsFlePath;
-
-        public LawnMowerManagerParallel(string instructionFilePath)
+        public LawnMowerManagerParallel(IInputParser inputParser)
         {
-            _finstructionsFlePath = instructionFilePath;
+            _inputParser = inputParser;
         }
 
-        public string RunMowers()
+        public List<Mower> RunMowers(Queue<string> instructions)
         {
-            var instructions = _fileRepo.GetInstructions(_finstructionsFlePath);
             _inputParser.ParseInput(instructions, out Lawn lawn, out List<Mower> mowers);
 
             var maxInstructions = mowers.Select(m => m.MowerCommands.Length).Max();
@@ -51,7 +46,7 @@ namespace MowTheLawn
                 });
             }
 
-            return _outputBuilder.GetOutput(mowers);
+            return mowers;
         }
 
         private List<Mower> CheckForCollisions(List<Mower> mowers, ConcurrentDictionary<Mower, Move> moves)

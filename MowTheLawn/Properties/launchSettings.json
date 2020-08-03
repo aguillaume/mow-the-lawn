@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "MowTheLawn": {
+      "commandName": "Project",
+      "commandLineArgs": "C:\\Projects\\training\\mow-the-lawn\\MowTheLawnTests\\ManualTestFiles\\Test01.txt"
+    }
+  }
+}
